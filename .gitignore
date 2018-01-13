@@ -1,0 +1,5 @@
+# to save my upload time
+node_modules/
+
+# please don't steal my keys
+keystore/
