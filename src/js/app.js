@@ -30,7 +30,7 @@ App = {
 
       // Set the provider for our contract.
       App.contracts.Will.setProvider(App.web3Provider);
-      return App.getAddress();
+      return App.getAddress(), App.trustcheck();
       //add return values
     });
     return App.bindEvents();
@@ -44,6 +44,8 @@ App = {
     $(document).on('click', '#addBeneficiary', App.addBeneficiary);
     $(document).on('click', '#addTrustee', App.addTrustee);
     $(document).on('click', '#confirm', App.confirm);
+    $(document).on('click', '#update', App.trustcheck);
+
 
   },
 
@@ -100,8 +102,9 @@ App = {
       App.trustcheck();
   },
 
-  trustcheck: function send() {
+  trustcheck: function() {
     App.contracts.Will.deployed().then(function(instance) {
+        console.log('hi');
         Will = instance;
         instance.numYes().then(function(result){
           $('#trustconfirm').text(result);
@@ -110,7 +113,6 @@ App = {
           $('#trustTotal').text(result);
         })
       });
-      App.trustcheck();
   },
 
 
