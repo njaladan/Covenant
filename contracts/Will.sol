@@ -1,25 +1,5 @@
 pragma solidity ^0.4.17;
 
-contract MasterWill{
-
-    mapping(address=>Will) public allWills;
-
-    function MasterWill() public {
-        //nothing here
-    }
-
-    function addWill(uint256 _endtime) public returns (address) {
-        Will will = new Will(_endtime, msg.sender);
-        allWills[msg.sender] = will;
-        return address(will);
-    }
-
-    function getWill() public view returns (address) {
-        return address(allWills[msg.sender]);
-    }
-
-}
-
 contract Token {
   function balanceOf(address tokenOwner) public constant returns (uint256){}
   function transfer(address to, uint256 tokens) public returns (bool) {}
@@ -37,21 +17,24 @@ contract Will{
         bool vote;
     }
 
-    uint256 public totalTokens = 0;
+    uint256 public totalTokens = 1000;
     uint256 public tokensUsed = 0;
     address public owner;
     uint256 public endTime;
-    Beneficiary[] beneficiaries;
+    Beneficiary[] public beneficiaries;
     mapping(address=>Trustee) trustees;
-    uint8 numYes = 0;
-    uint8 numTrustees = 0;
+    uint8 public numYes = 0;
+    uint8 public numTrustees = 0;
+
+    mapping(address=>uint256) public tokens;
 
 
 
     // up to the person to give the person this contract the
     // access to their propy tokens
-    address public propyToken = 0x2869b5844cc6ad66d19f3cebccf17c0062fdcd83;
-    Token accessToken = Token(propyToken);
+    // address public propyToken = 0x2869b5844cc6ad66d19f3cebccf17c0062fdcd83;
+
+    // Token accessToken = Token(propyToken);
 
     modifier onlyOwner {
         require(msg.sender == owner);
@@ -64,18 +47,17 @@ contract Will{
     }
 
     // constructor
-    function Will(uint256 _endTime, address _owner) public {
-        endTime = _endTime;
-        owner = _owner;
+    function Will() public {
+        owner = msg.sender;
     }
 
-    function getNumTokens() public constant returns (uint256) {
-        totalTokens = accessToken.balanceOf(address(this));
-        return totalTokens;
+    function tokensLeft() public constant returns (uint256) {
+        // totalTokens = accessToken.balanceOf(address(this));
+        return totalTokens - tokensUsed;
     }
 
     function setBeneficiary(address _beneficiary, uint256 _amount) onlyOwner public {
-        require((totalTokens-tokensUsed-_amount) > 0);
+        // require((totalTokens-tokensUsed-_amount) > 0);
         tokensUsed += _amount;
         beneficiaries.push(Beneficiary(_beneficiary, _amount));
     }
@@ -95,9 +77,6 @@ contract Will{
     // conditions to check: time is more than kill switch OR
     // more than half of trustees said yes
     function checkDeath() view public returns (bool) {
-        if(now > endTime) {
-            return true;
-        }
         if(numTrustees > 0) {
             if(numYes*2 > numTrustees) {
                 return true;
@@ -109,13 +88,15 @@ contract Will{
 
     function sendFunds() public isDead {
         for(uint i=0; i<beneficiaries.length; i++) {
-            accessToken.transfer(beneficiaries[i].person, beneficiaries[i].amount);
+            // accessToken.transfer(beneficiaries[i].person, beneficiaries[i].amount);
+            tokens[beneficiaries[i].person] += beneficiaries[i].amount;
         }
     }
 
     //use in case you want your tokens back
     function destroy() public onlyOwner {
-        accessToken.transfer(owner, getNumTokens());
+        // accessToken.transfer(owner, getNumTokens());
+        tokens[owner] = totalTokens;
         selfdestruct(owner);
     }
 }

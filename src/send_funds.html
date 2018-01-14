@@ -47,8 +47,7 @@
 
     <header class="bg-primary text-white">
       <div class="container text-center">
-        <h1>Create your Legacy.</h1>
-        <p class="lead">A decentralized will system to automatically manage ether and property.</p>
+        <h1>Authenticate passing</h1>
       </div>
     </header>
 
@@ -56,30 +55,18 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-8 mx-auto">
-            <h1>Welcome to your Will.</h1>
-            <p class="lead">Please enter the following information.</p>
             <div style="text-align:center;">
-              <p class="lead">Your Ethereum address is: <span id="willAddress"></span>.</p>
+
+            <h1>Please verify the following:</h1>
+            <br />
+            <h5>By clicking the button below, I verify that this user has died.</h5>
+
+              <p class="lead">Your Ethereum address will be recorded: <span id="yourAddress"></span>.</p>
               <form role="form">
-           <div class="form-group">
-              <label for="name">Beneficiary</label>
-              <input type="name" class="form-control" id="f1" placeholder="f1">
-           </div>
-           <div class="form-group">
-              <label for="address">Beneficiary Amount</label>
-              <input type="address" class="form-control" id="f2" placeholder="f2">
-           </div>
-           <button class="btn btn-primary" id="addBeneficiary" type="button">Add beneficiary</button>
-           <p>  </p>
-           <p>  </p>
-           <div class="form-group">
-              <label for="name">Trustee</label>
-              <input type="name" class="form-control" id="t1" placeholder="t1">
-           </div>
-           <button class="btn btn-primary" id="addTrustee" type="button">Add Trustee</button>
-
-
-      </form>
+                <button class="btn btn-primary" id="confirm" type="button">Confirm</button>
+              </form>
+              <p class="lead">Total number of trustees confirmed: <span id="trustconfirm"></span></p>
+              <p class="lead">Total number of trustees: <span id="trustTotal"></span></p>
             </div>
           </div>
         </div>
@@ -107,6 +94,7 @@
         </div>
       </div>
     </section>
+
 
     <!-- Footer -->
     <footer class="py-5 bg-dark">

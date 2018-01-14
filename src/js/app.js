@@ -22,14 +22,16 @@ App = {
   },
 
   initContract: function() {
-    $.getJSON('Lottery.json', function(data) {
+    $.getJSON('Will.json', function(data) {
       // Get the necessary contract artifact file and instantiate it with truffle-contract.
-      var LotteryArtifact = data;
-      App.contracts.Lottery = TruffleContract(LotteryArtifact);
+      var WillArtifact = data;
+      App.contracts.Will = TruffleContract(WillArtifact);
+
 
       // Set the provider for our contract.
-      App.contracts.Lottery.setProvider(App.web3Provider);
-      return App.getTicketPrice(), App.getTicketMapping(), App.getLotteryAddress();
+      App.contracts.Will.setProvider(App.web3Provider);
+      return App.getAddress();
+      //add return values
     });
     return App.bindEvents();
   },
@@ -37,112 +39,96 @@ App = {
   // the following is probably the ugliest code i've ever written; be warned.
 
   bindEvents: function() {
-    $(document).on('click', '#buyTicket1', App.handleBuyTicket1);
-
+    $(document).on('click', '#buyTicket1', App.addWill);
+    $(document).on('click', '#getwill', App.getWill);
+    $(document).on('click', '#addBeneficiary', App.addBeneficiary);
+    $(document).on('click', '#addTrustee', App.addTrustee);
+    $(document).on('click', '#confirm', App.confirm);
 
   },
 
-  handleBuyTicket1: function send() {
-    App.contracts.Lottery.deployed().then(function(instance) {
-      lottery = instance;
-      lottery = instance;
-var fName = document.getElementById("f1").value;
-console.log("fName=",f1);
-var lName = document.getElementById("f2").value;
-console.log("lName=",f2);
-var fName = document.getElementById("f3").value;
-console.log("f3=",f3);
-var lName = document.getElementById("f4").value;
-console.log("f4=",f4);
-var lName = document.getElementById("f5").value;
-console.log("f5=",f5);
-var fName = document.getElementById("f6").value;
-console.log("f6=",f6);
-var lName = document.getElementById("f7").value;
-console.log("f7=",f7);
-var lName = document.getElementById("f8").value;
-console.log("f8=",f8);
-var lName = document.getElementById("f9").value;
-console.log("f9=",f9);
-var fName = document.getElementById("f10").value;
-console.log("f10=",f10);
-var lName = document.getElementById("f11").value;
-console.log("f11=",f11);
-var fName = document.getElementById("f12").value;
-console.log("f6=",f12);
-var lName = document.getElementById("f13").value;
-console.log("f7=",f13);
-var lName = document.getElementById("f14").value;
-console.log("f8=",f14);
-var lName = document.getElementById("f15").value;
-console.log("f9=",f15);
 
+  getAddress: function() {
+    console.log('Getting will address');
+    App.contracts.Will.deployed().then(function(instance) {
+        Will = instance;
+        $('#willAddress').text(instance.address);
+      });
+  },
 
-      var lotteryContractAddress = lottery.address;
-      console.log(lotteryContractAddress);
-      lottery.ticketPrice().then(function(ticketPrice){
-        var ticketPrice = ticketPrice;
-        console.log(ticketPrice);
+  addBeneficiary: function send() {
+    var address = $('#f1').val();
+    var amount = $('#f2').val();
+    App.contracts.Will.deployed().then(function(instance) {
+        Will = instance;
+        // console.log(Will.totalTokens());
+        $('#willAddress').text(instance.address);
 
-        lottery.buyTicket(1, {
+        Will.setBeneficiary(address, amount, {
           from: web3.eth.coinbase,
-          to: lotteryContractAddress,
-          value: 5000000000000000,
-          gas: 70000
+          to: instance.address,
+          gas: 170000
 
         });
+      });
+  },
+
+  addTrustee: function send() {
+    var address = $('#t1').val();
+    App.contracts.Will.deployed().then(function(instance) {
+        Will = instance;
+        Will.setTrustee(address, {
+          from: web3.eth.coinbase,
+          to: instance.address,
+          gas: 170000
+
+        });
+      });
+  },
+
+  confirm: function send() {
+    var address = $('#t1').val();
+    App.contracts.Will.deployed().then(function(instance) {
+        Will = instance;
+        Will.declareDead({
+          from: web3.eth.coinbase,
+          to: instance.address,
+          gas: 170000
+
+        });
+      });
+      App.trustcheck();
+  },
+
+  trustcheck: function send() {
+    App.contracts.Will.deployed().then(function(instance) {
+        Will = instance;
+        instance.numYes().then(function(result){
+          $('#trustconfirm').text(result);
+        });
+        instance.numTrustees().then(function(result){
+          $('#trustTotal').text(result);
+        })
+      });
+      App.trustcheck();
+  },
+
+
+  addWill: function send() {
+    App.contracts.Will.deployed().then(function(instance) {
+      Will = instance;
+      var WillContractAddress = Will.address;
+      console.log(WillContractAddress);
+      Will.addWill().then(function(address){
+        console.log(address);
+        App.getWill();
+        return App.initWillContract();
+      });
       })
-    })
   },
 
 
-  getTicketPrice: function(){
-    console.log('Getting ticket price...');
-    App.contracts.Lottery.deployed().then(function(instance) {
-        lottery = instance;
-        return lottery.ticketPrice();
-    }).then(function(result){
-      EthPrice = Math.round(1000*result/500000000000000000)/1000; // Result is returned in wei (10^18 per 1 ETH), so divide by 10^18. Also using a technique to "multiply and divide" by 1000 for rounding up to 3 decimals.
-      $('#EthPrice').text(EthPrice.toString(10));
-      }).catch(function(err) {
-          console.log(err.message);
-        });
-  },
 
-  getLotteryAddress: function(){
-    console.log('Getting lottery address...');
-    App.contracts.Lottery.deployed().then(function(instance) {
-        lottery = instance;
-        return lottery.address;
-    }).then(function(result){
-      $('#lotteryAddress').text(result);
-      }).catch(function(err) {
-          console.log(err.message);
-        });
-  },
-
-  getTicketMapping: function(){
-    console.log('Getting ticket mapping...');
-    App.contracts.Lottery.deployed().then(function(instance) {
-        lottery = instance;
-        console.log(lottery.getTicketsPurchased())
-        return lottery.getTicketsPurchased();
-    }).then(function(result){
-      var i;
-      var button;
-      for(i = 0; i< result.length; i++){
-        if(result[i]=="0x0000000000000000000000000000000000000000"){
-          result[i]=0;
-        } else {
-          result[i]=1;
-          $("#buyTicket" + String(i)).prop('disabled', true);
-        }
-      }
-      console.log(result);
-      }).catch(function(err) {
-          console.log(err.message);
-        });
-  },
 
 };
 
