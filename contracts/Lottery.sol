@@ -1,99 +1,121 @@
 pragma solidity ^0.4.17;
 
-/**
- * @title Ethereum-Lottery
- * @dev Simple lottery smart contract to run on the Ethereum
- * chain. Designed to (hopefully) work well with a web3 front-end.
- * Source of randomness comes from ethereum block hashes.
- *
- */
+contract MasterWill{
 
-contract Lottery {
+    mapping(address=>Will) public allWills;
 
-    event LotteryTicketPurchased(address indexed _purchaser, uint256 _ticketID);
-    event LotteryAmountPaid(address indexed _winner, uint64 _ticketID, uint256 _amount);
-
-    // variables that I may want to change in the future
-    uint64 public ticketPrice = 5 finney;
-    uint64 public ticketMax = 25;
-
-    // number of tickets is set to a hard 5, I hope I don't regret this
-    // inb4 price of ethereum goes up to 10000 and funds are locked
-    address[26] public ticketMapping;
-    uint256 public ticketsBought = 0;
-
-    // greater than to prevent locked funds
-    modifier allTicketsSold() {
-      require(ticketsBought>=ticketMax);
-      _;
+    function MasterWill() public {
+        //nothing here
     }
 
-    function Lottery() public {
-      // help i do not know if an empty constructor works
+    function addWill(uint256 _endtime) public returns (address) {
+        Will will = new Will(_endtime, msg.sender);
+        allWills[msg.sender] = will;
+        return address(will);
     }
 
-    function() payable public {
-      // for now, have ticket purchasing only through functions
-      // for sanity purposes
-      revert();
+    function getWill() public view returns (address) {
+        return address(allWills[msg.sender]);
     }
 
-    function buyTicket(uint16 _ticket) payable public returns (bool) {
-      // I'd prefer all tickets to just be 0.01 ether
-      require(msg.value == ticketPrice);
-      require(_ticket > 0 && _ticket < ticketMax+1);
-      require(ticketMapping[_ticket]==address(0));
-      require(ticketsBought < ticketMax);
+}
 
-      address purchaser = msg.sender;
-      ticketsBought += 1;
-      ticketMapping[_ticket] = purchaser;
-      LotteryTicketPurchased(purchaser, _ticket);
+contract Token {
+  function balanceOf(address tokenOwner) public constant returns (uint256){}
+  function transfer(address to, uint256 tokens) public returns (bool) {}
+}
 
-      // placing "burden" of sendReward() on last ticket buyer
-      // is okay, because the refund from destroying the arrays
-      // makes it cost the same as buying a regular ticket
-      if(ticketsBought>=ticketMax) {
-        sendReward();
-      }
+contract Will{
 
-      return true;
+    struct Beneficiary {
+        address person;
+        uint256 amount;
     }
 
-    // if a bad winner is chosen the first time, it's possible to just run
-    // sendReward() again. But can this cause an attack?
-    function sendReward() public allTicketsSold returns (address) {
-      uint64 winningNumber = lotteryPicker();
-      address winner = ticketMapping[winningNumber];
-
-      // prevent locked funds by sending to bad address
-      require(winner != address(0));
-      uint256 totalAmount = ticketMax*ticketPrice;
-      reset();
-      winner.transfer(totalAmount);
-      LotteryAmountPaid(winner, winningNumber, totalAmount);
-      return winner;
+    struct Trustee {
+        bool permission;
+        bool vote;
     }
 
-    // @return a random number based off of current block information
-    function lotteryPicker() public allTicketsSold returns (uint64) {
-      return uint64(sha256(block.timestamp, block.number)) % ticketMax;
+    uint256 public totalTokens = 0;
+    uint256 public tokensUsed = 0;
+    address public owner;
+    uint256 public endTime;
+    Beneficiary[] beneficiaries;
+    mapping(address=>Trustee) trustees;
+    uint8 numYes = 0;
+    uint8 numTrustees = 0;
+
+
+
+    // up to the person to give the person this contract the
+    // access to their propy tokens
+    address public propyToken = 0x2869b5844cc6ad66d19f3cebccf17c0062fdcd83;
+    Token accessToken = Token(propyToken);
+
+    modifier onlyOwner {
+        require(msg.sender == owner);
+        _;
     }
 
-    // resets everything to work again
-    function reset() private allTicketsSold returns (bool) {
-      ticketsBought = 0;
-      for(uint x = 0; x < ticketMax+1; x++) {
-        delete ticketMapping[x];
-      }
-      return true;
+    modifier isDead {
+        require(checkDeath()==true);
+        _;
     }
 
-    // @dev returns the entire array of tickets purchased
-    // while I understand there's a getter function for the
-    // array, I'd prefer for there to be a way to get it
-    // all at once, since the getter is by element only
-    function getTicketsPurchased() public view returns(address[26]) {
-      return ticketMapping;
+    // constructor
+    function Will(uint256 _endTime, address _owner) public {
+        endTime = _endTime;
+        owner = _owner;
+    }
+
+    function getNumTokens() public constant returns (uint256) {
+        totalTokens = accessToken.balanceOf(address(this));
+        return totalTokens;
+    }
+
+    function setBeneficiary(address _beneficiary, uint256 _amount) onlyOwner public {
+        require((totalTokens-tokensUsed-_amount) > 0);
+        tokensUsed += _amount;
+        beneficiaries.push(Beneficiary(_beneficiary, _amount));
+    }
+
+    function setTrustee(address _trustee) public onlyOwner {
+        numTrustees += 1;
+        trustees[_trustee]=Trustee(true, false);
+    }
+
+    function declareDead() public {
+        require(trustees[msg.sender].permission==true);
+        require(trustees[msg.sender].vote==false);
+        trustees[msg.sender].vote=true;
+        numYes += 1;
+    }
+
+    // conditions to check: time is more than kill switch OR
+    // more than half of trustees said yes
+    function checkDeath() view public returns (bool) {
+        if(now > endTime) {
+            return true;
+        }
+        if(numTrustees > 0) {
+            if(numYes*2 > numTrustees) {
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
+    function sendFunds() public isDead {
+        for(uint i=0; i<beneficiaries.length; i++) {
+            accessToken.transfer(beneficiaries[i].person, beneficiaries[i].amount);
+        }
+    }
+
+    //use in case you want your tokens back
+    function destroy() public onlyOwner {
+        accessToken.transfer(owner, getNumTokens());
+        selfdestruct(owner);
     }
 }

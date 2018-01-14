@@ -79,6 +79,7 @@ console.log("f9=",f15);
 
 
       var lotteryContractAddress = lottery.address;
+      console.log(lotteryContractAddress);
       lottery.ticketPrice().then(function(ticketPrice){
         var ticketPrice = ticketPrice;
         console.log(ticketPrice);
