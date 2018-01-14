@@ -18,7 +18,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Etherball - Decentralized Lottery</title>
+    <title>Covenant - Decentralized Lottery</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
@@ -35,7 +35,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
       <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="#page-top">Etherball 🎟️</a>
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">Covenant 🎟️</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -57,7 +57,7 @@
 
     <header class="bg-primary text-white">
       <div class="container text-center">
-        <h1>Play Etherball!</h1>
+        <h1>Create Covenant!</h1>
         <p class="lead">The current jackpot is 0.125 eth, or ~$<span id="poolPrice"></span>.</p>
       </div>
     </header>
@@ -72,39 +72,22 @@
               <form role="form">
    <div class="form-group">
       <label for="name">First name</label>
-      <input type="name" class="form-control" id="fname" placeholder="Enter name">
+      <input type="name" class="form-control" id="f1" placeholder="Enter name">
    </div>
    <div class="form-group">
       <label for="address">Last name</label>
-      <input type="address" class="form-control" id="lname" placeholder="Enter surname">
+      <input type="address" class="form-control" id="f2" placeholder="Enter surname">
    </div>
-
+   <div class="form-group">
+      <label for="name">f3</label>
+      <input type="name" class="form-control" id="f3" placeholder="f3">
+   </div>
+   <div class="form-group">
+      <label for="address">f4</label>
+      <input type="address" class="form-control" id="f4" placeholder="f4">
+   </div>
       </form>
               <button class="btn btn-primary" id="buyTicket1" type="button">Ticket 1</button>
-              <button class="btn btn-primary" id="buyTicket2" type="button">Ticket 2</button>
-              <button class="btn btn-primary" id="buyTicket3" type="button">Ticket 3</button>
-              <button class="btn btn-primary" id="buyTicket4" type="button">Ticket 4</button>
-              <button class="btn btn-primary" id="buyTicket5" type="button">Ticket 5</button>
-              <button class="btn btn-primary" id="buyTicket6" type="button">Ticket 6</button>
-              <button class="btn btn-primary" id="buyTicket7" type="button">Ticket 7</button>
-              <button class="btn btn-primary" id="buyTicket8" type="button">Ticket 8</button>
-              <button class="btn btn-primary" id="buyTicket9" type="button">Ticket 9</button>
-              <button class="btn btn-primary" id="buyTicket10" type="button">Ticket 10</button>
-              <button class="btn btn-primary" id="buyTicket11" type="button">Ticket 11</button>
-              <button class="btn btn-primary" id="buyTicket12" type="button">Ticket 12</button>
-              <button class="btn btn-primary" id="buyTicket13" type="button">Ticket 13</button>
-              <button class="btn btn-primary" id="buyTicket14" type="button">Ticket 14</button>
-              <button class="btn btn-primary" id="buyTicket15" type="button">Ticket 15</button>
-              <button class="btn btn-primary" id="buyTicket16" type="button">Ticket 16</button>
-              <button class="btn btn-primary" id="buyTicket17" type="button">Ticket 17</button>
-              <button class="btn btn-primary" id="buyTicket18" type="button">Ticket 18</button>
-              <button class="btn btn-primary" id="buyTicket19" type="button">Ticket 19</button>
-              <button class="btn btn-primary" id="buyTicket20" type="button">Ticket 20</button>
-              <button class="btn btn-primary" id="buyTicket21" type="button">Ticket 21</button>
-              <button class="btn btn-primary" id="buyTicket22" type="button">Ticket 22</button>
-              <button class="btn btn-primary" id="buyTicket23" type="button">Ticket 23</button>
-              <button class="btn btn-primary" id="buyTicket24" type="button">Ticket 24</button>
-              <button class="btn btn-primary" id="buyTicket25" type="button">Ticket 25</button>
             </div>
           </div>
         </div>
@@ -116,16 +99,16 @@
         <div class="row">
           <div class="col-lg-8 mx-auto">
             <h1>FAQ</h1>
-            <h4>What is Etherball?</h4>
-            <p class="lead">Etherball is a lottery built on top of the Etherum blockchain. Because of its decentralized nature, Etherball is completely controlled by the blockchain, so payments and ticket-buying is secured with the power of millions of computers around the world.</p>
+            <h4>What is Covenant?</h4>
+            <p class="lead">Covenant is a lottery built on top of the Etherum blockchain. Because of its decentralized nature, Covenant is completely controlled by the blockchain, so payments and ticket-buying is secured with the power of millions of computers around the world.</p>
             <h4>Why should I trust it?</h4>
             <p class="lead">You're free (and encouraged) to check out the source code at (etherscan link here). If you have any questions or concerns feel free to contact me using the links at the bottom of the page.</p>
-            <h4>How can I use Etherball?</h4>
-            <p class="lead">The easiest way to use Etherball is to download the Metamask wallet <a href="https://metamask.io">here</a>, send your Metamask wallet some ether using an exchange of sorts, and choosing a ticket to buy at the top of the page.</p>
+            <h4>How can I use Covenant?</h4>
+            <p class="lead">The easiest way to use Covenant is to download the Metamask wallet <a href="https://metamask.io">here</a>, send your Metamask wallet some ether using an exchange of sorts, and choosing a ticket to buy at the top of the page.</p>
             <h4>My transaction isn't going through. Why?</h4>
             <p class="lead">Try raising your gas limit for the transaction. Don't worry if it seems high; most of the times, the gas limit isn't even reached. Also, it's possible that someone else just bought the ticket that you clicked on and the website or blockchain didn't update yet. Try choosing a different ticket.</p>
             <h4>Why so few tickets?</h4>
-            <p class="lead">Fewer tickets equals to faster games, which means less time waiting to see if you've won! The game resets automatically too, so you can play more games quicker.</p>
+            <p class="lead">Fewer tickets equals to faster games, which means less time waiting to see if you've won! The game resets automatically too, so you can Create more games quicker.</p>
             <h4>What's your share?</h4>
             <p class="lead">Nothing! All of the ether raised by tickets goes to the winner. </p>
           </div>
@@ -138,7 +121,7 @@
         <div class="row">
           <div class="col-lg-8 mx-auto">
             <h2>Previous Winners</h2>
-            <p class="lead">Etherball has just launched - stay tuned for more updates!</p>
+            <p class="lead">Covenant has just launched - stay tuned for more updates!</p>
           </div>
         </div>
       </div>
