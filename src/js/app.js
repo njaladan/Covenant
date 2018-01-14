@@ -68,6 +68,11 @@ App = {
   handleBuyTicket1: function send() {
     App.contracts.Lottery.deployed().then(function(instance) {
       lottery = instance;
+      lottery = instance;
+var fName = document.getElementById("fname").value;
+console.log("fName=",fName);
+var lName = document.getElementById("lname").value;
+console.log("lName=",lName);
       var lotteryContractAddress = lottery.address;
       lottery.ticketPrice().then(function(ticketPrice){
         var ticketPrice = ticketPrice;

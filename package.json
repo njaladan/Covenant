@@ -8,7 +8,7 @@
     "test": "test"
   },
   "scripts": {
-    "start":"lite-server",
+    "start": "lite-server",
     "dev": "lite-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -21,5 +21,13 @@
     "ethereumjs-wallet": "^0.6.0",
     "start": "^5.1.0",
     "truffle-wallet-provider": "0.0.5"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/njaladan/Covenant.git"
+  },
+  "bugs": {
+    "url": "https://github.com/njaladan/Covenant/issues"
+  },
+  "homepage": "https://github.com/njaladan/Covenant#readme"
 }
