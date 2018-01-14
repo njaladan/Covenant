@@ -2,8 +2,6 @@
 
 Concept Whitepaper: WCEF Hackathon 
 
-14 Jan 2018
-
 Team Members: Rik Brutsaert, Skyler Riley, Scot Makers, Ganesh Jaladanki
 
 # Executive Summary:
