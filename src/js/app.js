@@ -76,7 +76,13 @@ console.log("lName=",lName);
 var fName = document.getElementById("f3").value;
 console.log("f3=",fName);
 var lName = document.getElementById("f4").value;
-console.log("f3=",lName);
+console.log("f4=",lName);
+var lName = document.getElementById("f5").value;
+console.log("f5=",lName);
+var fName = document.getElementById("f6").value;
+console.log("f6=",fName);
+var lName = document.getElementById("f7").value;
+console.log("f7=",lName);
       var lotteryContractAddress = lottery.address;
       lottery.ticketPrice().then(function(ticketPrice){
         var ticketPrice = ticketPrice;
