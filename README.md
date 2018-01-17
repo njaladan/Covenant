@@ -1,6 +1,6 @@
 # Project: Legacy
 
-Concept Whitepaper: WCEF Hackathon 
+Concept Whitepaper: WCEF Hackathon
 
 Team Members: Rik Brutsaert, Skyler Riley, Scot Makers, Ganesh Jaladanki
 
@@ -18,7 +18,7 @@ The technology creates an immutable contract which will cut out any middle man/l
 
 # 1.3 Comparable Technologies
 
-Currently, competing technologies include traditional lawyers and estate planner, as well as centralized web applications such as Nolo online will. 
+Currently, competing technologies include traditional lawyers and estate planner, as well as centralized web applications such as Nolo online will.
 
 # 1.4 Platform/technology
 
@@ -28,7 +28,7 @@ The Legacy Estate Management platform is built on technologies centered around t
 
 The Legacy Estate Management System is an easy to use and set up and is completely anonymous. The user will use existing technologies of Ethereum blockchain to set up a contract within minutes.
 
-# 1.4.1 Detailed Steps for use:
+### 1.4.1 Detailed Steps for use:
 
 * User creates contract via customer support
 
@@ -40,15 +40,15 @@ The Legacy Estate Management System is an easy to use and set up and is complete
 
 # 1.5 Feature Development Priorities
 
-# 1.5.1 Already implemented
+### 1.5.1 Already implemented
 
-Monitoring for verification 
+Monitoring for verification
 
 Ethereum/token distribution
 
 Message/obituary
 
-# 1.5.2 Future implementation
+### 1.5.2 Future implementation
 
 Possibility to revert funds to initiator based on various rules
 
