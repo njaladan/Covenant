@@ -320,8 +320,7 @@ button,
 select,
 optgroup,
 textarea {
-  margin: 15px;
-  width:100px;
+  margin: 0;
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;

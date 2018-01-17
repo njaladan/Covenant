@@ -3,6 +3,7 @@ App = {
   contracts: {},
 
   init: function() {
+    console.log('Loaded.');
     return App.initWeb3();
   },
 
@@ -17,7 +18,6 @@ App = {
       App.web3Provider = new Web3.providers.HttpProvider('https://mainnet.infura.io/GjyHpPqLZffsizIx6ieH');
       web3 = new Web3(App.web3Provider);
     }
-
     return App.initContract();
   },
 
@@ -54,6 +54,7 @@ App = {
     console.log('Getting will address');
     App.contracts.Will.deployed().then(function(instance) {
         Will = instance;
+        console.log(Will);
         $('#willAddress').text(instance.address);
       });
   },

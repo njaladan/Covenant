@@ -1,8 +1,13 @@
 # Project: Legacy
 
-Concept Whitepaper: WCEF Hackathon
+Built in 24 hours at the WCEF hackathon.
 
-Team Members: Rik Brutsaert, Skyler Riley, Scot Makers, Ganesh Jaladanki
+For an image of the final product, please check out the `img` folder.
+
+Concept Whitepaper
+
+Team Members: Rik Brutsaert, Skyler Riley, Scott Makers, Ganesh Jaladanki
+
 
 # Executive Summary:
 
